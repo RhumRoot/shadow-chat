@@ -1,4 +1,3 @@
-'use strict'
 const mongoose = require('mongoose')
 
 class Init {
@@ -11,6 +10,8 @@ class Init {
         const userSchema = mongoose.Schema({
             _id: String,
             id: String,
+            
+            isAdmin: Boolean,
 
             username: String,
             first_name: String,
@@ -18,12 +19,12 @@ class Init {
 
             created: Number,
             lastSeen: Number
-        });
+        })
 
-        const User = mongoose.model('User', userSchema);
+        const User = mongoose.model('User', userSchema)
 
-        this.User = User;
+        this.User = User
     }
 }
 
-module.exports = Init;
+module.exports = Init

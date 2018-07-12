@@ -1,4 +1,3 @@
-'use strict'
 const Init = require('./init.js')
 
 class Controller {
@@ -9,4 +8,4 @@ class Controller {
     }
 }
 
-module.exports = Controller;
+module.exports = Controller

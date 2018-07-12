@@ -1,12 +1,18 @@
 const config = require('../config.json')
-const db = new (require('./controller'))(config.MONGO_URL)
+const Controller = require('./controller')
 
 class Client {
     constructor() {
-        
+        let db = new Controller(config.MONGO_URL)
+
+        this.User = db.User
     }
 
-    getUser(id) {
+    getUser(id, cb) {
+
+    }
+
+    createUser(tgUser, cb) {
         
     }
 }
