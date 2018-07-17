@@ -11,7 +11,7 @@ const express = require('express')
 const expressApp = express()
 
 
-const bot = new Telegraf('595027497:AAEPox0u5V8bPSFyqPSuUv9vGvAfN9DgQoY')
+const bot = new Telegraf('657787507:AAFhAPCFmtWe9hHh2NEhf8_XFqx5ujzRq8M')
 
 expressApp.use(bot.webhookCallback('/secret-path'))
 bot.telegram.setWebhook('https://shadow-chat.herokuapp.com/secret-path')
@@ -20,7 +20,7 @@ expressApp.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-bot.command('start', (ctx) => ctx.reply('Hello'))
+bot.command('start', (ctx) => ctx.reply('Hello rhum'))
 
 expressApp.listen(PORT, () => {
   console.log('Example app listening on port 3000!')
