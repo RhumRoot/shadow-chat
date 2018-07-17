@@ -100,9 +100,9 @@ class Handler {
                     }
                 }
 
-                options.reply_markup.inline_keyboard.push([{ text: 'Yes', callback_data: { isApproved: true, id: userToApprove.id } }])
-                options.reply_markup.inline_keyboard.push([{ text: 'No', callback_data: { isApproved: false, id: userToApprove.id } }])
-
+                options.reply_markup.inline_keyboard.push([{ text: 'Yes', callback_data: JSON.stringify({ isApproved: true, id: userToApprove.id }) }])
+                options.reply_markup.inline_keyboard.push([{ text: 'No', callback_data: JSON.stringify({ isApproved: false, id: userToApprove.id }) }])
+                console.log('getApprove options -', JSON.stringify(options))
                 tg.telegram.sendMessage(data.user.id, `New join request from #${userToApprove.id} ${userToApprove.username ? '(@' + userToApprove.username + ')' : ''} with username ${userToApprove.chatUsername}. Accept?`, options)
 
                 flow.next(data)
