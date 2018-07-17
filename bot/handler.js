@@ -27,7 +27,7 @@ class Handler {
                             )
                     ) : (
                             tg.telegram.sendMessage(data.user.id, 'Please enter your username'),
-                            flow.repeat()
+                            flow.repeat(data)
                         )
                 })
             })
