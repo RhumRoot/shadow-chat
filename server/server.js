@@ -12,7 +12,7 @@ const app = new (require('express'))
 const bodyParser = require('body-parser')
 
 const Telegraf = require('telegraf');
-const tg = new Telegraf(config.BOT_TOKEN);
+const tg = new Telegraf(config.BOT_TOKEN)
 
 const db = new (require('./db/client'))
 
@@ -21,7 +21,12 @@ const db = new (require('./db/client'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(tg.webhookCallback('/telegram'))
-tg.telegram.setWebhook(config.URL + '/telegram')
+tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
+    console.log(success)
+}, err => {
+    console.log(`~~~ Error while building bot`)
+    console.log(err)
+})
 
 
 //Bot launching
