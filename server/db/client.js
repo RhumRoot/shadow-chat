@@ -3,15 +3,21 @@ const Controller = require('./controller')
 
 class Client {
     constructor() {
-        let db = new Controller(config.MONGO_URL)
+        this.db = new Controller(config.MONGO_URL)
 
-        this.User = db.User
-        this.Chat = db.Chat
+        this.User = this.db.User
+        this.Chat = this.db.Chat
     }
 
     getUser(id, cb) {
         this.User.findOne({ id }, (err, user) => {
             cb(err ? undefined : (!user && Object.keys(user).length == 0 ? undefined : user))
+        })
+    }
+
+    getUsers(query, cb) {
+        this.User.find(query, (err, users) => {
+            cb(err ? undefined : (users.length ? users : undefined))
         })
     }
 
@@ -32,7 +38,7 @@ class Client {
     }
 
     getChat(cb) {
-        db.getChat(chat => {
+        this.db.getChat(chat => {
             chat ? (
                 cb(chat)
             ) : (

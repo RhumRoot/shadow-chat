@@ -5,9 +5,12 @@ class Bot {
         this.bundle = bundle
         this.handler = new Handler(bundle)
 
-        this.bundle.chat = bundle.db.getChat()
+        bundle.db.getChat(chat => {
+            this.bundle.chat = chat
 
-        this.handleUpdates()
+            this.handleUpdates()
+        })
+
     }
 
     handleUpdates() {
@@ -16,6 +19,8 @@ class Bot {
 
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
+
+            console.log('start command for user: ', JSON.stringify(tgUser))
 
             db.getUser(tgUser.id, user => {
                 !user && db.createUser(tgUser, user => {
@@ -28,6 +33,8 @@ class Bot {
             let tgUser = ctx.message.from
             let pass = ctx.message.text.split(' ')[1]
 
+            console.log('getadminrights command for user: ', JSON.stringify(tgUser))
+
             event.removeAllListeners(tgUser.id)
 
             db.getUser(tgUser.id, user => {
@@ -38,19 +45,25 @@ class Bot {
         tg.on('message', ctx => {
             let tgUser = ctx.message.from
 
+            console.log('message from user: ', JSON.stringify(ctx.message))
+
             event.emit(tgUser.id, ctx.message)
         })
 
         tg.on('callback_query', (ctx) => {
             console.log('callback_query data - ', JSON.stringify(ctx.callbackQuery.data))
-            
+
             ctx.answerCbQuery()
 
             //emitter.emit(`getApprove:${ctx.callbackQuery.data.split("${}")[0]}${ctx.from.id}`, ctx.callbackQuery.data.split("${}")[1])
+            /* emitter.emit(`getApprove:${ctx.callbackQuery.data.split("${}")[0]}${ctx.from.id}`, ctx.callbackQuery.data.split("${}")[1])
+            emitter.emit(`getApprove:${ctx.callbackQuery.data.split("${}")[0]}${ctx.from.id}`, ctx.callbackQuery.data.split("${}")[1]) */
         })
 
         event.on('getApprove', user => {
-            db.getUsers({status: 'admin'}, admins => {
+            console.log('getApprove for user', JSON.stringify(user))
+
+            db.getUsers({ status: 'admin' }, admins => {
                 admins.forEach(admin => {
                     handler.getApprove(admin, user)
                 })

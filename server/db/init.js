@@ -4,8 +4,8 @@ class Init {
     constructor(url) {
         mongoose.connect(url, { useMongoClient: true })
         const connection = mongoose.connection
-        connection.on('error', console.error('MongoDB connection error'))
-        connection.once('open', console.info('MongoDB is connected'))
+        connection.on('error', err => console.error('MongoDB connection error:', err))
+        connection.once('open', () => console.info('MongoDB is connected'))
 
         const userSchema = mongoose.Schema({
             id: String,
