@@ -6,7 +6,27 @@ const config = require('./config.json')
 const PORT = process.env.PORT || 5000
 const event = new (require('events'))
 
+const Telegraf = require('telegraf')
+const express = require('express')
+const expressApp = express()
 
+const bot = new Telegraf(config.BOT_TOKEN)
+expressApp.use(bot.webhookCallback('/secret-path'))
+bot.telegram.setWebhook('https://shadow-chat.herokuapp.com/secret-path')
+
+expressApp.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+bot.command('start', (ctx) => ctx.reply('Hello'))
+
+expressApp.listen(3000, () => {
+  console.log('Example app listening on port 3000!')
+})
+
+
+
+/* 
 //App&Bot init
 const app = new (require('express'))
 const bodyParser = require('body-parser')
@@ -21,10 +41,7 @@ const db = new (require('./db/client'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(tg.webhookCallback('/telegram'))
-/* app.post('/telegram', (req, res) => {
-    console.log('telegram request')
-    console.log(req.body)
-}) */
+
 tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
     console.log(success)
 }, err => {
@@ -37,11 +54,11 @@ tg.command('start', ctx => {
 
     console.log('start command for user: ', JSON.stringify(tgUser))
 
-    /* db.getUser(tgUser.id, user => {
+    db.getUser(tgUser.id, user => {
         !user && db.createUser(tgUser, user => {
             handler.start(user)
         })
-    }) */
+    }) 
 })
 
 //Bot launching
@@ -52,3 +69,4 @@ const bundle = { tg, db, event, config }
 
 
 app.listen(PORT, console.info(`Bot is working on ${PORT} port`))
+ */
