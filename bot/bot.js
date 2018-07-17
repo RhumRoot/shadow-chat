@@ -16,7 +16,7 @@ class Bot {
 
     handleUpdates() {
         let { handler } = this
-        let { tg, event, db, config } = this.bundle
+        let { tg, event, db, config, chat } = this.bundle
 
         console.log('handling updates')
         console.log('TG instanse', JSON.stringify(tg))
@@ -87,10 +87,21 @@ class Bot {
 
             db.getUser(user.id, user => {
                 if (user && (user.status == 'approved' || user.status == 'admin')) {
+                    chat.history.push({
+                        chatUsername: user.chatUsername,
+                        message: {
+                            type: 'text',
+                            data: Date.now()
+                        },
+                        timestamp: Date.now(message.text)
+                    })
+
+                    chat.save(() => {})
+
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         console.log('users for message', JSON.stringify(users))
                         users && users.forEach(receiver => {
-                            tg.telegram.sendMessage(receiver.id, `${user.chatUsername}: (${Date.now()}) ${message.text}`)
+                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${user.chatUsername}: (${new Date(Date.now()).toLocaleString()}) ${message.text}`)
                         })
                     })
                 }
