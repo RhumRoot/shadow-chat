@@ -10,7 +10,11 @@ const Telegraf = require('telegraf')
 const express = require('express')
 const expressApp = express()
 
+const bodyParser = require('body-parser')
+
 const bot = new Telegraf(config.BOT_TOKEN)
+expressApp.use(bodyParser.urlencoded({ extended: false }))
+expressApp.use(bodyParser.json())
 expressApp.use(bot.webhookCallback('/secret-path'))
 bot.telegram.setWebhook('https://shadow-chat.herokuapp.com/secret-path')
 
