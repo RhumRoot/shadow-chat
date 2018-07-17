@@ -1,5 +1,6 @@
 {
     "MONGO_URL": "",
     "BOT_TOKEN": "",
-    "URL": "https://shadow-chat.herokuapp.com"
+    "URL": "https://shadow-chat.herokuapp.com",
+    "ADMIN_PASS": "r43ff13e"
 }

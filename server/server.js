@@ -25,7 +25,7 @@ tg.telegram.setWebhook(config.URL + '/telegram')
 
 
 //Bot launching
-const bundle = { tg, db, event }
+const bundle = { tg, db, event, config }
 
 const bot = new (require('../bot/bot.js'))(bundle)
 

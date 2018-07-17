@@ -6,14 +6,25 @@ class Client {
         let db = new Controller(config.MONGO_URL)
 
         this.User = db.User
+        this.Chat = db.Chat
     }
 
-    getUser(id, cb) {
-
+    getUser(query, cb) {
+        
     }
 
     createUser(tgUser, cb) {
         
+    }
+
+    getChat(cb) {
+        db.getChat(chat => {
+            chat ? (
+                cb(chat)
+            ) : (
+                cb(new this.Chat())
+            )
+        })
     }
 }
 

@@ -9,20 +9,30 @@ class Init {
 
         const userSchema = mongoose.Schema({
             id: String,
-            
-            isAdmin: Boolean,
-
             username: String,
             first_name: String,
             last_name: String,
+
+            chatUsername: String,
+            isAdmin: Boolean,
 
             created: Number,
             lastSeen: Number
         })
 
-        const User = mongoose.model('User', userSchema)
+        const chatSchema = mongoose.Schema({
+            history: [{
+                chatUsername: String,
+                message: {
+                    type: String,
+                    data: String
+                },
+                timestamp: Number
+            }]
+        })
 
-        this.User = User
+        this.User = mongoose.model('User', userSchema)
+        this.Chat = mongoose.model('Chat', chatSchema)
     }
 }
 
