@@ -21,14 +21,6 @@ class Init {
         })
 
         const chatSchema = mongoose.Schema({
-            /* history: [{
-                chatUsername: String,
-                message: {
-                    type: String,
-                    data: String
-                },
-                timestamp: Number
-            }] */
             history: Array
         })
 

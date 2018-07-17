@@ -91,20 +91,17 @@ class Bot {
             db.getUser(user.id, user => {
                 if (user && (user.status == 'approved' || user.status == 'admin')) {
                     chat.history.push({
-                        chatUsername: user.chatUsername,
+                        chatUsername: user.status == 'admin' ? 'admin' : user.chatUsername,
                         message: {
                             type: 'text',
-                            data: Date.now()
+                            data: message.text
                         },
-                        timestamp: Date.now(message.text)
+                        timestamp: Date.now()
                     })
-
-                    console.log('Chat is ' + JSON.stringify(chat))
 
                     chat.save(() => { })
 
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
-                        console.log('users for message', JSON.stringify(users))
                         users && users.forEach(receiver => {
                             receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${user.chatUsername}: (${new Date(Date.now()).toLocaleString()}) ${message.text}`)
                         })
