@@ -63,12 +63,12 @@ class Handler {
         flowManager
             .create()
             .addStep((flow, data) => {
-                datauser.isAdmin ? (
+                datauser.status == 'admin' ? (
                     tg.telegram.sendMessage(data.user.id, 'You are already admin!'),
                     flow.next(data)
                 ) : (
                         pass == config.ADMIN_PASS ? (
-                            data.user.isAdmin = true,
+                            data.user.status = 'admin',
                             data.user.save((err, user) => {
                                 err && console.error('~~~ Error while setting admin right:', err)
                                 tg.telegram.sendMessage(data.user.id, 'Granting you superpowers… Now you are group administrator!')

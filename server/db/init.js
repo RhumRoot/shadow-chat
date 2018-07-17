@@ -14,7 +14,7 @@ class Init {
             last_name: String,
 
             chatUsername: String,
-            isAdmin: Boolean,
+            status: String,
 
             created: Number,
             lastSeen: Number

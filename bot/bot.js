@@ -50,7 +50,7 @@ class Bot {
         })
 
         event.on('getApprove', user => {
-            db.getUsers({isAdmin: true}, admins => {
+            db.getUsers({status: 'admin'}, admins => {
                 admins.forEach(admin => {
                     handler.getApprove(admin, user)
                 })

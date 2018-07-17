@@ -9,12 +9,26 @@ class Client {
         this.Chat = db.Chat
     }
 
-    getUser(query, cb) {
-        
+    getUser(id, cb) {
+        this.User.findOne({ id }, (err, user) => {
+            cb(err ? undefined : (!user && Object.keys(user).length == 0 ? undefined : user))
+        })
     }
 
     createUser(tgUser, cb) {
-        
+        let user = new this.User()
+
+        user.id = tgUser.id
+        user.status = 'pending'
+        user.username = tgUser.username
+        user.first_name = tgUser.first_name
+        user.last_name = tgUser.last_name
+        user.created = Date.now()
+        user.lastSeen = Date.now()
+
+        user.save((err, user) => {
+            cb(err ? undefined : user)
+        })
     }
 
     getChat(cb) {
@@ -22,8 +36,8 @@ class Client {
             chat ? (
                 cb(chat)
             ) : (
-                cb(new this.Chat())
-            )
+                    cb(new this.Chat())
+                )
         })
     }
 }

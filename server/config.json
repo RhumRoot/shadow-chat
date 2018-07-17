@@ -1,6 +1,6 @@
 {
-    "MONGO_URL": "",
-    "BOT_TOKEN": "",
+    "MONGO_URL": "mongodb://rhumroot:ZrjB%73%Br5DJ9@ds015760.mlab.com:15760/shadow-chat",
+    "BOT_TOKEN": "657787507:AAFhAPCFmtWe9hHh2NEhf8_XFqx5ujzRq8M",
     "URL": "https://shadow-chat.herokuapp.com",
     "ADMIN_PASS": "r43ff13e"
 }
