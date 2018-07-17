@@ -42,7 +42,12 @@ class Client {
             chat ? (
                 cb(chat)
             ) : (
-                    cb(new this.Chat())
+                    console.log('new chat'),
+                    chat = new this.Chat(),
+                    chat.save((err, chat) => {
+                        err && console.log(err)
+                        cb(chat)
+                    })
                 )
         })
     }
