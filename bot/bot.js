@@ -37,6 +37,8 @@ class Bot {
             let pass = ctx.message.text.split(' ')[1]
 
             console.log('getadminrights command for user: ', JSON.stringify(tgUser))
+            console.log('entered pass is - ' + pass)
+            console.log('pass is - ' + config.ADMIN_PASS)
 
             event.removeAllListeners(tgUser.id)
 
@@ -67,7 +69,7 @@ class Bot {
             console.log('getApprove for user', JSON.stringify(user))
 
             db.getUsers({ status: 'admin' }, admins => {
-                admins.forEach(admin => {
+                admins && admins.forEach(admin => {
                     handler.getApprove(admin, user)
                 })
             })
