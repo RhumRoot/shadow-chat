@@ -52,7 +52,7 @@ class Bot {
 
             console.log('message from user: ', JSON.stringify(ctx.message))
 
-            event.emit(tgUser.id, ctx.message)
+            event.emit(tgUser.id, ctx.message) && event.emit('messaging', tgUser, ctx.message)
         })
 
         tg.on('callback_query', (ctx) => {
@@ -79,6 +79,22 @@ class Bot {
         event.on('initMessaging', user => {
             console.log('initMessaging for user', JSON.stringify(user))
             handler.initMessaging(user)
+        })
+
+        event.on('messaging', (user, message) => {
+            console.log('messaging for user', JSON.stringify(user))
+            console.log('message', JSON.stringify(message))
+
+            db.getUser(user.id, user => {
+                if (user && (user.status == 'approved' || user.status == 'admin')) {
+                    db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
+                        console.log('users for message', JSON.stringify(users))
+                        users && users.forEach(receiver => {
+                            tg.telegram.sendMessage(receiver.id, `${user.chatUsername}: (${Date.now()}) ${message.text}`)
+                        })
+                    })
+                }
+            })
         })
     }
 }

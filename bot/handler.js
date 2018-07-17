@@ -152,7 +152,10 @@ class Handler {
                 event.once(`initMessaging:${data.user.id}`, query => {
                     query.isAgreed ? (
                         tg.telegram.sendMessage(data.user.id, `Nice to have you on board. Here’s the recent history of group communication:`),
-                        flow.next(data)
+                        data.user.status = 'approved',
+                        data.user.save((err, user) => {
+                            flow.next(data)
+                        })
                     ) : (
                         tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
                         flow.nextFrom(4, data)
@@ -160,13 +163,18 @@ class Handler {
                 })
             })
             .addStep((flow, data) => {
-                let lastHistory = chat.slice(-30), timerCounter = 0
+                let lastHistory = chat.history.slice(-30), timerCounter = 0
 
                 lastHistory && lastHistory.forEach(msg => {
                     setTimeout(() => {
                         tg.telegram.sendMessage(data.user.id, `${msg.chatUsername}: (${new Date(msg.timestamp).toLocaleString()}) ${msg.message.data}`)
-                    }, timerCounter * 35);
+                    }, timerCounter * 35)
                 })
+
+                setTimeout(() => {
+                    tg.telegram.sendMessage(data.user.id, `Everything you type now will be forwarded to the group. Enjoy!`)
+                    flow.next(data)
+                }, lastHistory.length * 37)
             })
             .addStep((flow, data) => {
                 flowManager.destroy(flow)
