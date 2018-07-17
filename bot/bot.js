@@ -52,7 +52,7 @@ class Bot {
 
             console.log('message from user: ', JSON.stringify(ctx.message))
 
-            event.emit(tgUser.id, ctx.message) && event.emit('messaging', tgUser, ctx.message)
+            !event.emit(tgUser.id, ctx.message) && event.emit('messaging', tgUser, ctx.message)
         })
 
         tg.on('callback_query', (ctx) => {
