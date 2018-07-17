@@ -19,7 +19,7 @@ class Bot {
         let { tg, event, db, config } = this.bundle
 
         console.log('handling updates')
-
+        console.log('TG instanse', JSON.stringify(tg))
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
 

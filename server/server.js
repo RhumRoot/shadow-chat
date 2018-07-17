@@ -22,7 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(tg.webhookCallback('/telegram'))
 tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
-    console.log(`bot was successfully built, webhook is ` + config.URL + '/telegram')
     console.log(success)
 }, err => {
     console.log(`~~~ Error while building bot`)
@@ -30,12 +29,10 @@ tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
 })
 
 
-setTimeout(() => {
-    //Bot launching
-    const bundle = { tg, db, event, config }
+//Bot launching
+const bundle = { tg, db, event, config }
 
-    const bot = new (require('../bot/bot.js'))(bundle)
-}, 10000);
+const bot = new (require('../bot/bot.js'))(bundle)
 
 
 
