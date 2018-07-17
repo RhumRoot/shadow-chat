@@ -63,7 +63,7 @@ class Handler {
         flowManager
             .create()
             .addStep((flow, data) => {
-                datauser.status == 'admin' ? (
+                data.user.status == 'admin' ? (
                     tg.telegram.sendMessage(data.user.id, 'You are already admin!'),
                     flow.next(data)
                 ) : (
