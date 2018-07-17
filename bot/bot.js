@@ -103,7 +103,7 @@ class Bot {
 
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {
-                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${user.chatUsername}: (${new Date(Date.now()).toLocaleString()}) ${message.text}`)
+                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${user.status == 'admin' ? 'admin' : user.chatUsername}: (${new Date(Date.now()).toLocaleString()}) ${message.text}`)
                         })
                     })
                 }
