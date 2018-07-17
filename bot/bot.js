@@ -56,11 +56,11 @@ class Bot {
         })
 
         tg.on('callback_query', (ctx) => {
-            console.log('callback_query data - ', JSON.stringify(ctx.callbackQuery.data))
+            let callback_query = JSON.parse(ctx.callbackQuery.data)
+            console.log('callback_query data - ', JSON.stringify(callback_query))
 
             ctx.answerCbQuery()
 
-            let callback_query = JSON.parse(ctx.callbackQuery.data)
             //emitter.emit(`getApprove:${ctx.callbackQuery.data.split("${}")[0]}${ctx.from.id}`, ctx.callbackQuery.data.split("${}")[1])
             event.emit(`getApprove:${callback_query.id}`, callback_query)
             event.emit(`initMessaging:${callback_query.id}`, callback_query)

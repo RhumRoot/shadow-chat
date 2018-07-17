@@ -141,8 +141,8 @@ class Handler {
                     }
                 }
 
-                options.reply_markup.inline_keyboard.push([{ text: 'Yes', callback_data: { isAgreed: true, id: data.user.id } }])
-                options.reply_markup.inline_keyboard.push([{ text: 'No', callback_data: { isAgreed: false, id: data.user.id } }])
+                options.reply_markup.inline_keyboard.push([{ text: 'Yes', callback_data: JSON.stringify({ isAgreed: true, id: data.user.id }) }])
+                options.reply_markup.inline_keyboard.push([{ text: 'No', callback_data: JSON.stringify({ isAgreed: false, id: data.user.id }) }])
 
                 tg.telegram.sendMessage(data.user.id, `Good news, ${data.user.chatUsername}! You were authorized to join the group. Please note the rules before we proceed: “...........”`, options)
 
