@@ -8,7 +8,6 @@ class Init {
         connection.once('open', console.info('MongoDB is connected'))
 
         const userSchema = mongoose.Schema({
-            _id: String,
             id: String,
             
             isAdmin: Boolean,

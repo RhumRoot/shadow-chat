@@ -1,23 +1,23 @@
-const Flow = require('./flow.js')
+const Handler = require('./handler')
 
 class Bot {
     constructor(bundle) {
         this.bundle = bundle
-        this.flow = new Flow(bundle)
+        this.handler = new Handler(bundle)
 
         this.handleUpdates()
     }
 
     handleUpdates() {
-        let { flow } = this
-        let { tg, events, db } = this.bundle
+        let { handler } = this
+        let { tg, event, db } = this.bundle
 
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
 
             db.getUser(tgUser.id, user => {
                 !user && db.createUser(tgUser, user => {  
-                    flow.onStart(user)
+                    handler.start(user)
                 })
             })
         })
