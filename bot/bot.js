@@ -62,8 +62,8 @@ class Bot {
 
             let callback_query = JSON.parse(ctx.callbackQuery.data)
             //emitter.emit(`getApprove:${ctx.callbackQuery.data.split("${}")[0]}${ctx.from.id}`, ctx.callbackQuery.data.split("${}")[1])
-            emitter.emit(`getApprove:${callback_query.id}`, callback_query)
-            emitter.emit(`initMessaging:${callback_query.id}`, callback_query)
+            event.emit(`getApprove:${callback_query.id}`, callback_query)
+            event.emit(`initMessaging:${callback_query.id}`, callback_query)
         })
 
         event.on('getApprove', user => {
