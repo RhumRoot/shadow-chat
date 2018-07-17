@@ -7,7 +7,7 @@ class Bot {
 
         bundle.db.getChat(chat => {
             this.bundle.chat = chat
-
+            console.log('The chat is - ' + JSON.stringify(chat))
             this.handleUpdates()
         })
 
@@ -16,6 +16,8 @@ class Bot {
     handleUpdates() {
         let { handler } = this
         let { tg, event, db, config } = this.bundle
+
+        console.log('handling updates')
 
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
