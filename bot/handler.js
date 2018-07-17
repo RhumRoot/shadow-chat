@@ -23,7 +23,7 @@ class Handler {
                             flow.next(data)
                         ) : (
                                 tg.telegram.sendMessage(data.user.id, 'Your username must be less than 20 characters. Enter it again'),
-                                flow.repeat()
+                                flow.repeat(data)
                             )
                     ) : (
                             tg.telegram.sendMessage(data.user.id, 'Please enter your username'),
