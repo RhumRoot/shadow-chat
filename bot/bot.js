@@ -7,16 +7,19 @@ class Bot {
 
         bundle.db.getChat(chat => {
             this.bundle.chat = chat
-            console.log('The chat is - ' + JSON.stringify(chat))
+
+
+            this.handleUpdates()
         })
 
-        this.handleUpdates()
 
     }
 
     handleUpdates() {
         let { handler } = this
         let { tg, event, db, config, chat } = this.bundle
+
+        console.log('The chat is - ' + JSON.stringify(chat))
 
         console.log('handling updates')
         console.log('TG instanse', JSON.stringify(tg))
@@ -96,7 +99,7 @@ class Bot {
                         timestamp: Date.now(message.text)
                     })
 
-                    chat.save(() => {})
+                    chat.save(() => { })
 
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         console.log('users for message', JSON.stringify(users))
