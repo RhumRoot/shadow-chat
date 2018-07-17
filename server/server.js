@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(tg.webhookCallback('/telegram'))
 tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
-    console.log(`bot was successfully built`)
+    console.log(`bot was successfully built, webhook is ` + config.URL + '/telegram')
     console.log(success)
 }, err => {
     console.log(`~~~ Error while building bot`)

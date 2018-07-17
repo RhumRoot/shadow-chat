@@ -8,8 +8,9 @@ class Bot {
         bundle.db.getChat(chat => {
             this.bundle.chat = chat
             console.log('The chat is - ' + JSON.stringify(chat))
-            this.handleUpdates()
         })
+
+        this.handleUpdates()
 
     }
 
