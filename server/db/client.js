@@ -9,7 +9,9 @@ class Client {
     }
 
     getUser(id, cb) {
-
+        this.User.findOne({ id }, (err, user) => {
+            cb(err ? undefined : (!user && Object.keys(user).length == 0 ? undefined : user))
+        })
     }
 
     createUser(tgUser, cb) {
