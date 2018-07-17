@@ -99,6 +99,8 @@ class Bot {
                         timestamp: Date.now(message.text)
                     })
 
+                    console.log('Chat is ' + JSON.stringify(chat))
+
                     chat.save(() => { })
 
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
