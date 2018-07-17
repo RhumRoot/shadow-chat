@@ -157,7 +157,6 @@ class Handler {
                             flow.next(data)
                         })
                     ) : (
-                        tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
                         flow.nextFrom(4, data)
                     )
                 })
