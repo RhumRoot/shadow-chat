@@ -30,10 +30,12 @@ tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
 })
 
 
-//Bot launching
-const bundle = { tg, db, event, config }
+setTimeout(() => {
+    //Bot launching
+    const bundle = { tg, db, event, config }
 
-const bot = new (require('../bot/bot.js'))(bundle)
+    const bot = new (require('../bot/bot.js'))(bundle)
+}, 10000);
 
 
 
