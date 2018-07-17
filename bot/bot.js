@@ -22,7 +22,7 @@ class Bot {
         console.log('The chat is - ' + JSON.stringify(chat))
 
         console.log('handling updates')
-        console.log('TG instanse', JSON.stringify(tg))
+        //console.log('TG instanse', JSON.stringify(tg))
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
 
