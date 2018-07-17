@@ -20,7 +20,11 @@ const db = new (require('./db/client'))
 //App&Bot configuring
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(tg.webhookCallback('/telegram'))
+//app.use(tg.webhookCallback('/telegram'))
+app.post('/telegram', (req, res) => {
+    console.log('telegram request')
+    console.log(req.body)
+})
 tg.telegram.setWebhook(config.URL + '/telegram').then(success => {
     console.log(success)
 }, err => {
