@@ -154,7 +154,7 @@ class Handler {
                 flow.next(data)
             })
             .addStep((flow, data) => {
-                event.once(`initMessaging:${data.user.id}`, query => {
+                event.once(`initMessaging.rules:${data.user.id}`, query => {
                     query.isAgreed ? (
                         tg.telegram.sendMessage(data.user.id, `Nice to have you on board. Here’s the recent history of group communication:`),
                         data.user.status = 'approved',
