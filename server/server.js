@@ -5,6 +5,7 @@
 const config = require('./config.json')
 const PORT = process.env.PORT || 5000
 const event = new (require('events'))
+const moment = require('moment')
 //App&Bot init
 const express = require('express')
 const app = express()
@@ -26,7 +27,7 @@ tg.telegram.setWebhook('https://shadow-chat.herokuapp.com/telegram').then(succes
 
 
 //Bot launching
-const bundle = { tg, db, event, config }
+const bundle = { tg, db, event, moment, config }
 
 const bot = new (require('../bot/bot.js'))(bundle)
 

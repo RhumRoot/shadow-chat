@@ -14,7 +14,7 @@ class Bot {
 
     handleUpdates() {
         let { handler } = this
-        let { tg, event, db, config, chat } = this.bundle
+        let { tg, event, db, moment, config, chat } = this.bundle
 
         //console.log('The chat is - ' + JSON.stringify(chat))
 
@@ -86,20 +86,22 @@ class Bot {
 
             db.getUser(user.id, user => {
                 if (user && (user.status == 'approved' || user.status == 'admin')) {
-                    chat.history.push({
-                        chatUsername: user.status == 'admin' ? 'admin' : user.chatUsername,
+                    let msg = {
+                        chatUsername: user.status == 'admin' ? user.chatUsername + '👑' : user.chatUsername,
                         message: {
                             type: 'text',
                             data: message.text
                         },
-                        timestamp: Date.now()
-                    })
+                        ts: Date.now(),
+                        label_ts:moment().format('h:mm - DD/MM/YY')
+                    }
 
+                    chat.history.push(msg)
                     chat.save(() => { })
-
+                    
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {
-                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${user.status == 'admin' ? 'admin' : user.chatUsername}: (${new Date(Date.now()).toLocaleString()}) ${message.text}`)
+                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`)
                         })
                     })
                 }

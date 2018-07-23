@@ -19,7 +19,7 @@ class Handler {
                 event.once(data.user.id, msg => {
                     msg.text ? (
                         msg.text.length <= 20 ? (
-                            data.user.chatUsername = msg.text,
+                            data.user.chatUsername = msg.text.replace(/👑/g, ""),
                             flow.next(data)
                         ) : (
                                 tg.telegram.sendMessage(data.user.id, 'Your username must be less than 20 characters. Try again please'),
@@ -171,7 +171,7 @@ class Handler {
 
                 lastHistory && lastHistory.forEach(msg => {
                     setTimeout(() => {
-                        tg.telegram.sendMessage(data.user.id, `${msg.chatUsername}: (${new Date(msg.timestamp).toLocaleString()}) ${msg.message.data}`)
+                        tg.telegram.sendMessage(data.user.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`)
                     }, timerCounter * 35)
                 })
 
