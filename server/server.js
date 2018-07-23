@@ -10,8 +10,8 @@ const event = new (require('events'))
 const express = require('express')
 const app = express()
 
-const Telegraf = require('telegraf');
-const tg = new Telegraf('657787507:AAFhAPCFmtWe9hHh2NEhf8_XFqx5ujzRq8M')
+const Telegraf = require('telegraf')
+const tg = new Telegraf(config.BOT_TOKEN)
 
 const db = new (require('./db/client'))
 
