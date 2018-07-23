@@ -5,7 +5,6 @@
 const config = require('./config.json')
 const PORT = process.env.PORT || 5000
 const event = new (require('events'))
-
 //App&Bot init
 const express = require('express')
 const app = express()

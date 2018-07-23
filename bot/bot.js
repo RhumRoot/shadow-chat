@@ -24,9 +24,9 @@ class Bot {
             console.log('start command for user: ', JSON.stringify(tgUser))
 
             db.getUser(tgUser.id, user => {
-                !user && db.createUser(tgUser, user => {
+                !user ? db.createUser(tgUser, user => {
                     handler.start(user)
-                })
+                }) : !user.chatUsername && handler.start(user)
             })
         })
 
