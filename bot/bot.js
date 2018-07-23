@@ -62,7 +62,7 @@ class Bot {
             ctx.answerCbQuery()
 
             event.emit(`getApprove:${callback_query.id}`, callback_query)
-            event.emit(`initMessaging.rules:${callback_query.id}`, callback_query)
+            event.emit(`initMessaging:${callback_query.id}`, callback_query)
         })
 
         event.on('getApprove', user => {
