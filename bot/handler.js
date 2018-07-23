@@ -105,7 +105,7 @@ class Handler {
                     }
                 }
 
-                options.reply_markup.inline_keyboard.push([{ text: 'Yes', callback_data: JSON.stringify({ isApproved: true, id: userToApprove.id }) }])
+                options.reply_markup.inline_keyboard.push([{ text: 'Yes', callback_data: JSON.stringify({ isApproved: true, id: userToApprove.id, approver: data.user.id }) }])
                 options.reply_markup.inline_keyboard.push([{ text: 'No', callback_data: JSON.stringify({ isApproved: false, id: userToApprove.id }) }])
                 console.log('getApprove options -', JSON.stringify(options))
                 tg.telegram.sendMessage(data.user.id, `New join request from #${userToApprove.id} ${userToApprove.username ? '(@' + userToApprove.username + ')' : ''} with username ${userToApprove.chatUsername}. Accept?`, options)
@@ -116,6 +116,7 @@ class Handler {
                 event.once(`getApprove:${userToApprove.id}`, query => {
                     event.removeAllListeners(`getApprove:${userToApprove.id}`)
                     console.log('getApprove')
+                    if(query.approver == data.user.id) {
                     query.isApproved ? (
                         tg.telegram.sendMessage(data.user.id, `User ${userToApprove.chatUsername} joined the group chat.`),
                         flow.next(data)
@@ -123,6 +124,9 @@ class Handler {
                             tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
                             flow.nextFrom(4, data)
                         )
+                    } else {
+                        flow.nextFrom(4, data)
+                    }
                 })
             })
             .addStep((flow, data) => {
