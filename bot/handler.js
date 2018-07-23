@@ -91,6 +91,29 @@ class Handler {
             .execute({ user: user })
     }
 
+    refuseAdmin(user) {
+        let { tg, event, db, config } = this.bundle
+
+        flowManager
+            .create()
+            .addStep((flow, data) => {
+                if (data.user.status == 'admin') {
+                    data.user.status = 'approved'
+                    data.user.save(() => { })
+
+                    tg.telegram.sendMessage(data.user.id, 'You are free now!')
+                    flow.next(data)
+                } else {
+                    tg.telegram.sendMessage(data.user.id, 'You weren`t an admin')
+                    flow.next(data)
+                }
+            })
+            .addStep((flow, data) => {
+                flowManager.destroy(flow)
+            })
+            .execute({ user: user })
+    }
+
     getApprove(user, userToApprove) {
         let { tg, event, db } = this.bundle
 
@@ -116,14 +139,14 @@ class Handler {
                 event.once(`getApprove:${userToApprove.id}`, query => {
                     event.removeAllListeners(`getApprove:${userToApprove.id}`)
                     console.log('getApprove')
-                    if(query.approver == data.user.id) {
-                    query.isApproved ? (
-                        tg.telegram.sendMessage(data.user.id, `User ${userToApprove.chatUsername} joined the group chat.`),
-                        flow.next(data)
-                    ) : (
-                            tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
-                            flow.nextFrom(4, data)
-                        )
+                    if (query.approver == data.user.id) {
+                        query.isApproved ? (
+                            tg.telegram.sendMessage(data.user.id, `User ${userToApprove.chatUsername} joined the group chat.`),
+                            flow.next(data)
+                        ) : (
+                                tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
+                                flow.nextFrom(4, data)
+                            )
                     } else {
                         flow.nextFrom(4, data)
                     }

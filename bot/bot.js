@@ -46,6 +46,16 @@ class Bot {
                 user && handler.getAdmin(user, pass)
             })
         })
+        
+        tg.command('refuseadminrights', ctx => {
+            let tgUser = ctx.message.from
+
+            console.log('refuseadminrights command for user: ', JSON.stringify(tgUser))
+
+            db.getUser(tgUser.id, user => {
+                user && handler.refuseAdmin(user)
+            })
+        })
 
         tg.on('message', ctx => {
             let tgUser = ctx.message.from
