@@ -115,7 +115,7 @@ class Handler {
             .addStep((flow, data) => {
                 event.once(`getApprove:${userToApprove.id}`, query => {
                     event.removeAllListeners(`getApprove:${userToApprove.id}`)
-
+                    console.log('getApprove')
                     query.isApproved ? (
                         tg.telegram.sendMessage(data.user.id, `User ${userToApprove.chatUsername} joined the group chat.`),
                         flow.next(data)
