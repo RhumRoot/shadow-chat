@@ -22,7 +22,7 @@ class Handler {
                             data.user.chatUsername = msg.text,
                             flow.next(data)
                         ) : (
-                                tg.telegram.sendMessage(data.user.id, 'Your username must be less than 20 characters. Enter it again'),
+                                tg.telegram.sendMessage(data.user.id, 'Your username must be less than 20 characters. Try again please'),
                                 flow.repeat(data)
                             )
                     ) : (
@@ -63,21 +63,26 @@ class Handler {
         flowManager
             .create()
             .addStep((flow, data) => {
-                data.user.status == 'admin' ? (
-                    tg.telegram.sendMessage(data.user.id, 'You are already admin!'),
-                    flow.next(data)
+                data.user.chatUsername ? (
+                    data.user.status == 'admin' ? (
+                        tg.telegram.sendMessage(data.user.id, 'You are already admin!'),
+                        flow.next(data)
+                    ) : (
+                            pass == config.ADMIN_PASS ? (
+                                data.user.status = 'admin',
+                                data.user.save((err, user) => {
+                                    err && console.error('~~~ Error while setting admin right:', err)
+                                    tg.telegram.sendMessage(data.user.id, 'Granting you superpowers… Now you are group administrator!')
+                                    flow.next(data)
+                                })
+                            ) : (
+                                    tg.telegram.sendMessage(data.user.id, 'Enter command with the right pass!'),
+                                    flow.next(data)
+                                )
+                        )
                 ) : (
-                        pass == config.ADMIN_PASS ? (
-                            data.user.status = 'admin',
-                            data.user.save((err, user) => {
-                                err && console.error('~~~ Error while setting admin right:', err)
-                                tg.telegram.sendMessage(data.user.id, 'Granting you superpowers… Now you are group administrator!')
-                                flow.next(data)
-                            })
-                        ) : (
-                                tg.telegram.sendMessage(data.user.id, 'Enter command with the right pass!'),
-                                flow.next(data)
-                            )
+                        tg.telegram.sendMessage(data.user.id, 'Please, complete /start procedure'),
+                        flow.next(data)
                     )
             })
             .addStep((flow, data) => {
@@ -113,9 +118,9 @@ class Handler {
                         tg.telegram.sendMessage(data.user.id, `User ${userToApprove.chatUsername} joined the group chat.`),
                         flow.next(data)
                     ) : (
-                        tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
-                        flow.nextFrom(4, data)
-                    )
+                            tg.telegram.sendMessage(data.user.id, `You refused to ${userToApprove.chatUsername} joining group chat.`),
+                            flow.nextFrom(4, data)
+                        )
                 })
             })
             .addStep((flow, data) => {
@@ -157,8 +162,8 @@ class Handler {
                             flow.next(data)
                         })
                     ) : (
-                        flow.nextFrom(4, data)
-                    )
+                            flow.nextFrom(4, data)
+                        )
                 })
             })
             .addStep((flow, data) => {

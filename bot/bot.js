@@ -8,11 +8,8 @@ class Bot {
         bundle.db.getChat(chat => {
             this.bundle.chat = chat
 
-
             this.handleUpdates()
         })
-
-
     }
 
     handleUpdates() {
@@ -21,8 +18,6 @@ class Bot {
 
         console.log('The chat is - ' + JSON.stringify(chat))
 
-        console.log('handling updates')
-        //console.log('TG instanse', JSON.stringify(tg))
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
 
@@ -43,7 +38,7 @@ class Bot {
             console.log('entered pass is - ' + pass)
             console.log('pass is - ' + config.ADMIN_PASS)
 
-            event.removeAllListeners(tgUser.id)
+            //event.removeAllListeners(tgUser.id)
 
             db.getUser(tgUser.id, user => {
                 user && handler.getAdmin(user, pass)
@@ -64,7 +59,6 @@ class Bot {
 
             ctx.answerCbQuery()
 
-            //emitter.emit(`getApprove:${ctx.callbackQuery.data.split("${}")[0]}${ctx.from.id}`, ctx.callbackQuery.data.split("${}")[1])
             event.emit(`getApprove:${callback_query.id}`, callback_query)
             event.emit(`initMessaging:${callback_query.id}`, callback_query)
         })
