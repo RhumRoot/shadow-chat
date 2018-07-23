@@ -21,6 +21,8 @@ class Bot {
         tg.command('start', ctx => {
             let tgUser = ctx.message.from
 
+            event.removeAllListeners(tgUser.id)
+
             console.log('start command for user: ', JSON.stringify(tgUser))
 
             db.getUser(tgUser.id, user => {
