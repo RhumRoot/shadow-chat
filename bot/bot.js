@@ -16,7 +16,7 @@ class Bot {
         let { handler } = this
         let { tg, event, db, config, chat } = this.bundle
 
-        console.log('The chat is - ' + JSON.stringify(chat))
+        //console.log('The chat is - ' + JSON.stringify(chat))
 
         tg.command('start', ctx => {
             let tgUser = ctx.message.from

@@ -19,23 +19,12 @@ const db = new (require('./db/client'))
 //App&Bot configuring
 app.use(tg.webhookCallback('/telegram'))
 tg.telegram.setWebhook('https://shadow-chat.herokuapp.com/telegram').then(success => {
-    console.log(success)
+    console.log('Bot was built successfully')
 }, err => {
     console.log(`~~~ Error while building bot`)
     console.log(err)
 })
 
-/* tg.command('start', ctx => {
-    let tgUser = ctx.message.from
-
-    console.log('start command for user: ', JSON.stringify(tgUser))
-
-    db.getUser(tgUser.id, user => {
-        !user && db.createUser(tgUser, user => {
-            handler.start(user)
-        })
-    }) 
-}) */
 
 //Bot launching
 const bundle = { tg, db, event, config }
