@@ -131,7 +131,9 @@ class Bot {
 
                     chat.markModified("history")
                     chat.history.push(msg)
-                    chat.save(() => { })
+                    chat.save((err) => { 
+                        console.log(err)
+                    })
 
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {

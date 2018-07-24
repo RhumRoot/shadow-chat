@@ -299,8 +299,6 @@ class Handler {
     sendMessage(id, msg) {
         let { tg } = this.bundle
 
-        console.log('Sending msg: \n', msg)
-
         let options = {
             parse_mode: "Markdown"
         }
