@@ -129,6 +129,7 @@ class Bot {
                         label_ts:moment().format('h:mm - DD/MM/YY')
                     }
 
+                    chat.markModified("history")
                     chat.history.push(msg)
                     chat.save(() => { })
                     
