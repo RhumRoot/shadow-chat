@@ -132,6 +132,8 @@ class Bot {
                     chat.history.push(msg)
                     chat.save(() => { })
                     
+                    console.log(chat)
+
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {
                             receiver.id != user.id && handler.sendMessage(receiver.id, msg)
