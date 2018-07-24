@@ -305,7 +305,7 @@ class Handler {
         }
 
         if(msg.message.text) {
-            tg.telegram.sendMessage(id, `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}\t\t\t\t\n${msg.message.text}`, options)
+            tg.telegram.sendMessage(id, `${msg.chatUsername}: ${timeLabel ? ' | ' + msg.label_ts : ''}\n${msg.message.text}`, options)
         }
 
         if(msg.message.photo) {
