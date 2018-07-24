@@ -184,6 +184,7 @@ class Handler {
             })
             .addStep((flow, data) => {
                 event.once(`initMessaging:${data.user.id}`, query => {
+                    console.log('initMessaging with query: ', query)
                     query.isAgreed ? (
                         tg.telegram.sendMessage(data.user.id, `Nice to have you on board. Here’s the recent history of group communication:`),
                         data.user.status = 'approved',
@@ -304,7 +305,7 @@ class Handler {
         }
 
         if(msg.message.text) {
-            tg.telegram.sendMessage(id, `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}\n${msg.message.text}`, options)
+            tg.telegram.sendMessage(id, `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}\t\n${msg.message.text}`, options)
         }
 
         if(msg.message.photo) {
