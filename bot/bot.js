@@ -120,16 +120,13 @@ class Bot {
                 if (user && (user.status == 'approved' || user.status == 'admin')) {
                     let msg = {
                         chatUsername: user.status == 'admin' ? '👑 _' + user.chatUsername + '_' : user.chatUsername,
-                        message: {
-                            type: 'text',
-                            data: message.text
-                        },
+                        /* message: {
+                            type: message.text ? 'text' : message.photo ? 'photo' : message.document ? 'document' : 'undefined',
+                            data: message.text ? message.text : message.photo ? message.photo[0].file_id : message.document ? message.document : 'undefined',
+                        }, */
+                        message,
                         ts: Date.now(),
                         label_ts:moment().format('h:mm - DD/MM/YY')
-                    }
-
-                    let options = {
-                        parse_mode: "Markdown"
                     }
 
                     chat.history.push(msg)
@@ -137,7 +134,7 @@ class Bot {
                     
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {
-                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
+                            receiver.id != user.id && handler.sendMessage(receiver.id, msg)
                         })
                     })
                 }

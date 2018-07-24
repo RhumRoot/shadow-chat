@@ -204,7 +204,8 @@ class Handler {
 
                 lastHistory && lastHistory.forEach(msg => {
                     setTimeout(() => {
-                        tg.telegram.sendMessage(data.user.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
+                        handler.sendMessage(data.user.id, msg)
+                        //tg.telegram.sendMessage(data.user.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
                     }, timerCounter * 35)
                 })
 
@@ -297,6 +298,27 @@ class Handler {
                 flowManager.destroy(flow)
             })
             .execute({ user: user })
+    }
+
+    sendMessage(id, msg) {
+        let options = {
+            parse_mode: "Markdown"
+        }
+
+        if(msg.message.text) {
+            tg.telegram.sendMessage(id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.text}`, options)
+        }
+
+        if(msg.message.photo) {
+            options.caption = `${msg.chatUsername} | ${msg.label_ts}`
+            tg.telegram.sendPhoto(id, msg.message.photo[0].file_id, options)
+        }
+        
+        if(msg.message.document) {
+            options.caption = `${msg.chatUsername} | ${msg.label_ts}`
+            tg.telegram.sendDocument(id, msg.message.document.file_id, options)
+        }
+        /* tg.telegram.sendMessage(receiver.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options) */
     }
 }
 
