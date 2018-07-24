@@ -301,6 +301,8 @@ class Handler {
     }
 
     sendMessage(id, msg) {
+        let { tg } = this.bundle
+
         let options = {
             parse_mode: "Markdown"
         }
