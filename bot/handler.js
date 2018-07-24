@@ -200,7 +200,7 @@ class Handler {
 
                 lastHistory && lastHistory.forEach(msg => {
                     setTimeout(() => {
-                        this.sendMessage(data.user.id, msg)
+                        this.sendMessage(data.user.id, msg, true)
                         //tg.telegram.sendMessage(data.user.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
                     }, timerCounter * 35)
                 })
@@ -296,7 +296,7 @@ class Handler {
             .execute({ user: user })
     }
 
-    sendMessage(id, msg) {
+    sendMessage(id, msg, timeLabel) {
         let { tg } = this.bundle
 
         let options = {
@@ -304,16 +304,16 @@ class Handler {
         }
 
         if(msg.message.text) {
-            tg.telegram.sendMessage(id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.text}`, options)
+            tg.telegram.sendMessage(id, `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}\n${msg.message.text}`, options)
         }
 
         if(msg.message.photo) {
-            options.caption = `${msg.chatUsername} | ${msg.label_ts}`
+            options.caption = `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}`
             tg.telegram.sendPhoto(id, msg.message.photo[0].file_id, options)
         }
         
         if(msg.message.document) {
-            options.caption = `${msg.chatUsername} | ${msg.label_ts}`
+            options.caption = `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}`
             tg.telegram.sendDocument(id, msg.message.document.file_id, options)
         }
         /* tg.telegram.sendMessage(receiver.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options) */
