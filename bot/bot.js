@@ -119,7 +119,7 @@ class Bot {
             db.getUser(user.id, user => {
                 if (user && (user.status == 'approved' || user.status == 'admin')) {
                     let msg = {
-                        chatUsername: user.status == 'admin' ? '👑 _' + user.chatUsername + '_' : user.chatUsername,
+                        chatUsername: user.status == 'admin' ? '_' + user.chatUsername + '_ 👑' : '*' + user.chatUsername + '*',
                         /* message: {
                             type: message.text ? 'text' : message.photo ? 'photo' : message.document ? 'document' : 'undefined',
                             data: message.text ? message.text : message.photo ? message.photo[0].file_id : message.document ? message.document : 'undefined',
