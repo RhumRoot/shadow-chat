@@ -198,13 +198,9 @@ class Handler {
             .addStep((flow, data) => {
                 let lastHistory = chat.history.slice(-30), timerCounter = 0
 
-                let options = {
-                    parse_mode: "Markdown"
-                }
-
                 lastHistory && lastHistory.forEach(msg => {
                     setTimeout(() => {
-                        handler.sendMessage(data.user.id, msg)
+                        this.sendMessage(data.user.id, msg)
                         //tg.telegram.sendMessage(data.user.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
                     }, timerCounter * 35)
                 })
