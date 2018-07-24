@@ -57,6 +57,17 @@ class Bot {
             })
         })
 
+        tg.command('delete', ctx => {
+            let tgUser = ctx.message.from
+            let chatUsername = ctx.message.text.split(' ')[1]
+
+            console.log(`[INFO] delete command from ${tgUser.id} for ${chatUsername}` + config.ADMIN_PASS)
+
+            db.getUser(tgUser.id, user => {
+                user && handler.delete(user, chatUsername)
+            })
+        })
+
         tg.on('message', ctx => {
             let tgUser = ctx.message.from
 
@@ -97,7 +108,7 @@ class Bot {
             db.getUser(user.id, user => {
                 if (user && (user.status == 'approved' || user.status == 'admin')) {
                     let msg = {
-                        chatUsername: user.status == 'admin' ? user.chatUsername + '👑' : user.chatUsername,
+                        chatUsername: user.status == 'admin' ? '👑 _' + user.chatUsername + '_' : user.chatUsername,
                         message: {
                             type: 'text',
                             data: message.text
@@ -106,12 +117,16 @@ class Bot {
                         label_ts:moment().format('h:mm - DD/MM/YY')
                     }
 
+                    let options = {
+                        parse_mode: "Markdown"
+                    }
+
                     chat.history.push(msg)
                     chat.save(() => { })
                     
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {
-                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`)
+                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`, options)
                         })
                     })
                 }

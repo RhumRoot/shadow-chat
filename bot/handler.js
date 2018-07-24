@@ -198,9 +198,13 @@ class Handler {
             .addStep((flow, data) => {
                 let lastHistory = chat.history.slice(-30), timerCounter = 0
 
+                let options = {
+                    parse_mode: "Markdown"
+                }
+
                 lastHistory && lastHistory.forEach(msg => {
                     setTimeout(() => {
-                        tg.telegram.sendMessage(data.user.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`)
+                        tg.telegram.sendMessage(data.user.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`, options)
                     }, timerCounter * 35)
                 })
 
@@ -208,6 +212,52 @@ class Handler {
                     tg.telegram.sendMessage(data.user.id, `Everything you type now will be forwarded to the group. Enjoy!`)
                     flow.next(data)
                 }, lastHistory.length * 37)
+            })
+            .addStep((flow, data) => {
+                flowManager.destroy(flow)
+            })
+            .execute({ user: user })
+    }
+
+    delete(user, chatUsername) {
+        let { tg, event, db, config } = this.bundle
+
+        flowManager
+            .create()
+            .addStep((flow, data) => {
+                if (data.user.status == 'admin') {
+                    db.getUsers({ chatUsername }, users => {
+                        if (users && users.length) {
+                            data.userForDeletion = users[0]
+                            tg.telegram.sendMessage(data.user.id, `Are you sure you want to delete ${chatUsername} from the group? Type DELETE to confirm`)
+                            flow.next(data)
+                        } else {
+                            tg.telegram.sendMessage(data.user.id, `There is no user with ${chatUsername} username`)
+                            flow.nextFrom(3, data)
+                        }
+                    })
+                } else {
+                    tg.telegram.sendMessage(data.user.id, 'You don`t have access for using this command!')
+                    flow.nextFrom(3, data)
+                }
+            })
+            .addStep((flow, data) => {
+                event.once(data.user.id, msg => {
+                    msg.text ? (
+                        msg.text == 'Delete' ? (
+                            data.userForDeletion.status = 'deleted',
+                            data.userForDeletion.save(() => { }),
+                            tg.telegram.sendMessage(data.user.id, `Ok, ${chatUsername} was deleted from the group. Type /add ${chatUsername} to get him back`),
+                            flow.next(data)
+                        ) : (
+                                tg.telegram.sendMessage(data.user.id, 'User still alive!'),
+                                flow.next(data)
+                            )
+                    ) : (
+                            tg.telegram.sendMessage(data.user.id, 'User still alive!'),
+                            flow.next(data)
+                        )
+                })
             })
             .addStep((flow, data) => {
                 flowManager.destroy(flow)
