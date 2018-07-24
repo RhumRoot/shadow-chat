@@ -22,6 +22,8 @@ class Init {
 
         const chatSchema = mongoose.Schema({
             history: Array
+        }, {
+            usePushEach: true
         })
 
         this.User = mongoose.model('User', userSchema)
