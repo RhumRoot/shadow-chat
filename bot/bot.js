@@ -61,10 +61,21 @@ class Bot {
             let tgUser = ctx.message.from
             let chatUsername = ctx.message.text.split(' ')[1]
 
-            console.log(`[INFO] delete command from ${tgUser.id} for ${chatUsername}` + config.ADMIN_PASS)
+            console.log(`[INFO] delete command from ${tgUser.id} for ${chatUsername}`)
 
             db.getUser(tgUser.id, user => {
                 user && handler.delete(user, chatUsername)
+            })
+        })
+
+        tg.command('add', ctx => {
+            let tgUser = ctx.message.from
+            let chatUsername = ctx.message.text.split(' ')[1]
+
+            console.log(`[INFO] add command from ${tgUser.id} for ${chatUsername}`)
+
+            db.getUser(tgUser.id, user => {
+                user && handler.add(user, chatUsername)
             })
         })
 
@@ -126,7 +137,7 @@ class Bot {
                     
                     db.getUsers({ $or: [{ status: 'approved' }, { status: 'admin' }] }, users => {
                         users && users.forEach(receiver => {
-                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${msg.chatUsername}|${msg.label_ts}\n${msg.message.data}`, options)
+                            receiver.id != user.id && tg.telegram.sendMessage(receiver.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
                         })
                     })
                 }
