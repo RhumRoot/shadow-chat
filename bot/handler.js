@@ -309,12 +309,12 @@ class Handler {
         }
 
         if(msg.message.photo) {
-            options.caption = `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}`
+            options.caption = `${msg.chatUsername}: ${timeLabel ? ' | ' + msg.label_ts : ''}${msg.message.caption ? '\n' + msg.message.caption : ''}`
             tg.telegram.sendPhoto(id, msg.message.photo[0].file_id, options)
         }
         
         if(msg.message.document) {
-            options.caption = `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}`
+            options.caption = `${msg.chatUsername}: ${timeLabel ? ' | ' + msg.label_ts : ''}${msg.message.caption ? '\n' + msg.message.caption : ''}`
             tg.telegram.sendDocument(id, msg.message.document.file_id, options)
         }
 
