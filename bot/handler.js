@@ -203,7 +203,7 @@ class Handler {
                     setTimeout(() => {
                         this.sendMessage(data.user.id, msg, true)
                         //tg.telegram.sendMessage(data.user.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options)
-                    }, timerCounter * 35)
+                    }, timerCounter * 70)
                 })
 
                 setTimeout(() => {
