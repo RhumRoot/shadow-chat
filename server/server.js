@@ -11,7 +11,7 @@ const express = require('express')
 const app = express()
 
 const Telegraf = require('telegraf')
-const tg = new Telegraf(config.BOT_TOKEN_DEV)
+const tg = new Telegraf(config.BOT_TOKEN)
 
 const db = new (require('./db/client'))
 

@@ -3,7 +3,7 @@ const Controller = require('./controller')
 
 class Client {
     constructor() {
-        this.db = new Controller(config.MONGO_URL_DEV)
+        this.db = new Controller(config.MONGO_URL)
 
         this.User = this.db.User
         this.Chat = this.db.Chat
