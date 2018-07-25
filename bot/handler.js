@@ -320,7 +320,9 @@ class Handler {
 
         if(msg.message.sticker) {
             tg.telegram.sendMessage(id, `${msg.chatUsername}: ${timeLabel ? ' | ' + msg.label_ts : ''}`, options)
-            tg.telegram.sendSticker(id, msg.message.sticker.file_id)
+            setTimeout(() => {
+                tg.telegram.sendSticker(id, msg.message.sticker.file_id)
+            }, 15)
         }
     }
 }
