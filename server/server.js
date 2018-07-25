@@ -11,9 +11,9 @@ const express = require('express')
 const app = express()
 
 const Telegraf = require('telegraf')
-const tg = new Telegraf(config.BOT_TOKEN)
+const tg = new Telegraf(config.BOT_TOKEN_DEV)
 
-const db = new (require('./db/client'))
+const db = new (require('./db/client'))(config.MONGO_URL_DEV)
 
 
 //App&Bot configuring

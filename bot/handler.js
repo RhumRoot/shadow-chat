@@ -317,7 +317,11 @@ class Handler {
             options.caption = `${msg.chatUsername}${timeLabel ? ' | ' + msg.label_ts : ''}`
             tg.telegram.sendDocument(id, msg.message.document.file_id, options)
         }
-        /* tg.telegram.sendMessage(receiver.id, `${msg.chatUsername} | ${msg.label_ts}\n${msg.message.data}`, options) */
+
+        if(msg.message.sticker) {
+            tg.telegram.sendMessage(id, `${msg.chatUsername}: ${timeLabel ? ' | ' + msg.label_ts : ''}`, options)
+            tg.telegram.sendSticker(id, msg.message.sticker.file_id)
+        }
     }
 }
 

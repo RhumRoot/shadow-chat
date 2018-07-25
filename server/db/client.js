@@ -2,8 +2,8 @@ const config = require('../config.json')
 const Controller = require('./controller')
 
 class Client {
-    constructor() {
-        this.db = new Controller(config.MONGO_URL)
+    constructor(url) {
+        this.db = new Controller(url)
 
         this.User = this.db.User
         this.Chat = this.db.Chat
